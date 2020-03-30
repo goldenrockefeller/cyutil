@@ -15,6 +15,7 @@ if __name__ == "__main__":
         packages=find_namespace_packages("src"),
         package_dir={'': 'src'},
         install_requires=['cython', 'numpy'],
-        script_args = ["develop"],
+        package_data={"": ["*.pxd", "*.pyx", "*.pyxbld"]},
+        script_args = ["install"],
         namespace_packages = [namespace],
         python_requires = ">=3.3")
