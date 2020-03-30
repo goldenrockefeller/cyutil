@@ -3,8 +3,12 @@ from setuptools import setup, find_namespace_packages
 
 if __name__ == "__main__":
 
+    namespace = "rockefeg"
+    pkg = "cyutil"
+
+
     setup(
-        name = "rockefeg.cyutil",
+        name = "{namespace}.{pkg}".format(**locals()),
         version='0.0.0',
         ext_modules = [],
         zip_safe=False,
