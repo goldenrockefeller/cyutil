@@ -6,7 +6,7 @@
         "depends": [],
         "name": "rockefeg.cyutil.freelist",
         "sources": [
-            "C:\\Users\\white\\Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pyx"
+            "c:\\users\\white\\documents\\python_workspace_local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pyx"
         ]
     },
     "module_name": "rockefeg.cyutil.freelist"
@@ -820,11 +820,11 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pyx",
-  "Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pxd",
+  "freelist.pyx",
+  "freelist.pxd",
   "stringsource",
-  "Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\copyable.pxd",
-  "Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\array.pxd",
+  "copyable.pxd",
+  "array.pxd",
 };
 /* ForceInitThreads.proto */
 #ifndef __PYX_FORCE_INIT_THREADS
@@ -2191,7 +2191,6 @@ static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does
 static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create a buffer that is contiguous in memory.";
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
-static const char __pyx_k_Documents_Python_Workspace_Local[] = "Documents\\Python_Workspace_Local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pyx";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
@@ -2200,6 +2199,7 @@ static const char __pyx_k_Out_of_bounds_on_buffer_access_a[] = "Out of bounds on
 static const char __pyx_k_The_factory_method_self_m_fn_new[] = "The factory method (self.m_fn_new_free_object = {self.m_fn_new_free_object}) did not create a free object. There are (extra_refcnt = {extra_refcnt}) extra references to the returned object (free_obj = {free_obj}).";
 static const char __pyx_k_The_maximum_number_of_objects_ma[] = "The maximum number of objects (max_n_objs = {max_n_objs} must be positive.";
 static const char __pyx_k_Unable_to_convert_item_to_object[] = "Unable to convert item to object";
+static const char __pyx_k_c_users_white_documents_python_w[] = "c:\\users\\white\\documents\\python_workspace_local\\cyutil\\src\\rockefeg\\cyutil\\freelist.pyx";
 static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension %d (got %d and %d)";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
@@ -2209,7 +2209,6 @@ static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
 static PyObject *__pyx_kp_s_Cannot_assign_to_read_only_memor;
 static PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
 static PyObject *__pyx_kp_s_Cannot_index_with_type_s;
-static PyObject *__pyx_kp_s_Documents_Python_Workspace_Local;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_n_s_Freelist;
@@ -2239,6 +2238,7 @@ static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
+static PyObject *__pyx_kp_s_c_users_white_documents_python_w;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
@@ -5102,7 +5102,7 @@ static int __pyx_pf_8rockefeg_6cyutil_8freelist_8Freelist_8m_levels_4__del__(str
  *     cdef public list m_levels
  *     cdef public SheddingObjectArray m_free_objs             # <<<<<<<<<<<<<<
  * 
- * 
+ *     cpdef Py_ssize_t n_levels(self) except *
  */
 
 /* Python wrapper */
@@ -19028,7 +19028,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Cannot_assign_to_read_only_memor, __pyx_k_Cannot_assign_to_read_only_memor, sizeof(__pyx_k_Cannot_assign_to_read_only_memor), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_create_writable_memory_vi, __pyx_k_Cannot_create_writable_memory_vi, sizeof(__pyx_k_Cannot_create_writable_memory_vi), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_index_with_type_s, __pyx_k_Cannot_index_with_type_s, sizeof(__pyx_k_Cannot_index_with_type_s), 0, 0, 1, 0},
-  {&__pyx_kp_s_Documents_Python_Workspace_Local, __pyx_k_Documents_Python_Workspace_Local, sizeof(__pyx_k_Documents_Python_Workspace_Local), 0, 0, 1, 0},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {&__pyx_n_s_Freelist, __pyx_k_Freelist, sizeof(__pyx_k_Freelist), 0, 0, 1, 1},
@@ -19058,6 +19057,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
+  {&__pyx_kp_s_c_users_white_documents_python_w, __pyx_k_c_users_white_documents_python_w, sizeof(__pyx_k_c_users_white_documents_python_w), 0, 0, 1, 0},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
@@ -19371,7 +19371,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Documents_Python_Workspace_Local, __pyx_n_s_py_compact, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_c_users_white_documents_python_w, __pyx_n_s_py_compact, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 34, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
