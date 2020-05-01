@@ -1,7 +1,6 @@
 from Cython.Build import cythonize
 
 def make_ext(modname, pyxfilename):
-    from distutils.extension import Extension
     return cythonize(pyxfilename, language_level = 3)[0]
 
 # import numpy

@@ -1,21 +1,21 @@
-from setuptools import setup, find_namespace_packages
-
+from setuptools import setup
+import sys
 
 if __name__ == "__main__":
 
     namespace = "rockefeg"
     pkg = "cyutil"
+    name = "{namespace}.{pkg}".format(**locals())
 
+    if len(sys.argv) == 1:
+        sys.argv.append("develop")
 
     setup(
-        name = "{namespace}.{pkg}".format(**locals()),
+        name = name,
         version='0.0.0',
-        ext_modules = [],
         zip_safe=False,
-        packages=find_namespace_packages("src"),
+        packages=[namespace, name],
         package_dir={'': 'src'},
         install_requires=['cython', 'numpy'],
         package_data={"": ["*.pxd", "*.pyx", "*.pyxbld"]},
-        script_args = ["install"],
-        namespace_packages = [namespace],
         python_requires = ">=3.3")

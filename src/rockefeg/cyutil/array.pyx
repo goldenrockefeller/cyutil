@@ -56,13 +56,64 @@ cdef class Freelist:
 
         return self.objs[free_obj_id]
 
+cdef DoubleArray new_DoubleArray(Py_ssize_t size):
+    global MIN_CAPACITY_IN_FREELIST
+    global MAX_SIZE_IN_FREELIST
+    global double_array_freelists
 
+    cdef Py_ssize_t capacity
+    cdef Py_ssize_t freelist_id
+    cdef Py_ssize_t i
+    cdef Freelist freelist
+    cdef DoubleArray new_arr
+
+    if size < 0:
+        raise (
+            ValueError(
+                "The array size (size = {size}) must be non-negative."
+                .format(**locals())))
+
+    if size > MAX_SIZE_IN_FREELIST:
+        new_arr = DoubleArray.__new__(DoubleArray)
+        new_arr.view = np.ndarray((size,), 'd')
+        new_arr.capacity = size
+        return new_arr
+
+    capacity = MIN_CAPACITY_IN_FREELIST
+    freelist_id = 0
+
+    while size > capacity:
+        freelist_id += 1
+        capacity *= 2
+
+    freelist = double_array_freelists[freelist_id]
+
+    # Collect free objects if the freelist is empty.
+    if freelist.n_free_objs == 0:
+        freelist.collect_free()
+
+        # After collection, grow the freelist if not enough objects
+        # were freed.
+        if freelist.n_free_objs < max(len(freelist.objs) // 2, 1):
+            freelist.objs = [None] * max(2 * len(freelist.objs), 1)
+            for i in range(len(freelist.objs)):
+                freelist.objs[i] = DoubleArray.__new__(DoubleArray)
+                freelist.objs[i].view = np.ndarray((capacity,), 'd')
+                freelist.objs[i].capacity = capacity
+                # freelist.objs[i] = DoubleArray(np.ndarray((capacity,), 'd'))
+            freelist.n_free_objs = len(freelist.objs)
+
+    # Take new object from the freelist and resize the object.
+    new_arr = freelist.free_obj()
+    new_arr.view.shape[0] = size
+
+    return new_arr
 
 @cython.warn.undeclared(True)
 @cython.auto_pickle(False)
 cdef class DoubleArray:
 
-    def __init__(self, object base):
+    def __init__(self, object base, bint copies = True):
         cdef object nparr
         cdef tuple shape
         cdef double[::1] base_view
@@ -81,7 +132,7 @@ cdef class DoubleArray:
         self.view = nparr
         self.capacity = self.view.shape[0]
 
-        if base is not None:
+        if base is not None and copies:
             # Copy base data into new view if base exist (not None).
             for index in range(self.view.shape[0]):
                 self.view[index] = base_view[index]
@@ -119,7 +170,7 @@ cdef class DoubleArray:
                     "The DoubleArray copy method can not copy subclasses of "
                     "DoubleArray." ))
 
-        new_arr = DoubleArray.new(len(self))
+        new_arr = new_DoubleArray(len(self))
 
         for i in range(len(self)):
             new_arr.view[i] = self.view[i]
@@ -132,53 +183,6 @@ cdef class DoubleArray:
         for i in range(len(self)):
             self.view[i] = val
 
-    @staticmethod
-    cdef object new(Py_ssize_t size):
-        global MIN_CAPACITY_IN_FREELIST
-        global MAX_SIZE_IN_FREELIST
-        global double_array_freelists
-
-        cdef Py_ssize_t capacity
-        cdef Py_ssize_t freelist_id
-        cdef Py_ssize_t i
-        cdef Freelist freelist
-        cdef DoubleArray new_arr
-
-        if size < 0:
-            raise (
-                ValueError(
-                    "The array size (size = {size}) must be non-negative."
-                    .format(**locals())))
-
-        if size > MAX_SIZE_IN_FREELIST:
-            return DoubleArray(np.ndarray((size,), 'd'))
-
-        capacity = MIN_CAPACITY_IN_FREELIST
-        freelist_id = 0
-
-        while size > capacity:
-            freelist_id += 1
-            capacity *= 2
-
-        freelist = double_array_freelists[freelist_id]
-
-        # Collect free objects if the freelist is empty.
-        if freelist.n_free_objs == 0:
-            freelist.collect_free()
-
-            # After collection, grow the freelist if not enough objects
-            # were freed.
-            if freelist.n_free_objs < max(len(freelist.objs) // 2, 1):
-                freelist.objs = [None] * max(2 * len(freelist.objs), 1)
-                for i in range(len(freelist.objs)):
-                    freelist.objs[i] = DoubleArray(np.ndarray((capacity,), 'd'))
-                freelist.n_free_objs = len(freelist.objs)
-
-        # Take new object from the freelist and resize the object.
-        new_arr = freelist.free_obj()
-        new_arr.view.shape[0] = size
-
-        return new_arr
 
 
 
