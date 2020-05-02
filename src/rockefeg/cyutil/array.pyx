@@ -160,15 +160,15 @@ cdef class DoubleArray:
         global double_array_freelists
         return double_array_freelists
 
-    cpdef object copy(self, DoubleArray new_arr = None):
+    cpdef object copy(self, object copy_obj = None):
         cdef DoubleArray new_arr
 
         cdef Py_ssize_t i
 
         if new_arr is None:
-            new_arr = DoubleArray.__new__(DoubleArray)
-
-        new_arr = new_DoubleArray(len(self))
+            new_arr = new_DoubleArray(len(self))
+        else:
+            new_arr = <DoubleArray?> copy_obj
 
         for i in range(len(self)):
             new_arr.view[i] = self.view[i]
