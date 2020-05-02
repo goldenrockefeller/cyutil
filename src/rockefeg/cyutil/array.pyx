@@ -168,7 +168,7 @@ cdef class DoubleArray:
         if new_arr is None:
             new_arr = new_DoubleArray(len(self))
         else:
-            new_arr = <DoubleArray?> copy_obj
+            new_arr = copy_obj
 
         for i in range(len(self)):
             new_arr.view[i] = self.view[i]
