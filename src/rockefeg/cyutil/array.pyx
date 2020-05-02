@@ -160,15 +160,13 @@ cdef class DoubleArray:
         global double_array_freelists
         return double_array_freelists
 
-    cpdef object copy(self):
+    cpdef object copy(self, DoubleArray new_arr = None):
         cdef DoubleArray new_arr
+
         cdef Py_ssize_t i
 
-        if type(self) is not DoubleArray:
-            raise (
-                NotImplementedError(
-                    "The DoubleArray copy method can not copy subclasses of "
-                    "DoubleArray." ))
+        if new_arr is None:
+            new_arr = DoubleArray.__new__(DoubleArray)
 
         new_arr = new_DoubleArray(len(self))
 
