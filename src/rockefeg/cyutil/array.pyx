@@ -5,7 +5,7 @@ cdef extern from "object.h":
     struct _object:
         Py_ssize_t ob_refcnt
 
-cdef inline bint is_free(object obj) except *:
+cdef inline bint is_free(obj) except *:
     return (<_object*>obj)[0].ob_refcnt <= 2
 
 cdef enum:
@@ -45,7 +45,7 @@ cdef class Freelist:
                 self.objs[i] = tmp
                 self.n_free_objs += 1
 
-    cpdef object free_obj(self):
+    cpdef free_obj(self):
         cdef Py_ssize_t free_obj_id
 
         if self.n_free_objs == 0:
@@ -113,7 +113,7 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
 @cython.auto_pickle(False)
 cdef class DoubleArray:
 
-    def __init__(self, object base, bint copies = True):
+    def __init__(self, base, bint copies = True):
         cdef object nparr
         cdef tuple shape
         cdef double[::1] base_view
@@ -160,7 +160,7 @@ cdef class DoubleArray:
         global double_array_freelists
         return double_array_freelists
 
-    cpdef object copy(self, object copy_obj = None):
+    cpdef copy(self, copy_obj = None):
         cdef DoubleArray new_arr
 
         cdef Py_ssize_t i
