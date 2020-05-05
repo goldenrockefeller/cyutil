@@ -1,4 +1,4 @@
-cdef DoubleArray new_DoubleArray(Py_ssize_t size)
+
 
 cdef class DoubleArray:
     cdef public Py_ssize_t capacity
@@ -8,5 +8,7 @@ cdef class DoubleArray:
         # Type-agnostic copy
 
     cpdef void set_all_to(self, double val) except *
+
+cdef DoubleArray new_DoubleArray(Py_ssize_t size)
 
 
