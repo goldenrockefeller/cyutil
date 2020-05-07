@@ -34,7 +34,7 @@ cdef class Freelist:
         self.n_free_objs = 0
         self.obj_capacity = obj_capacity
 
-    cpdef void collect_free(self) except *:
+    cpdef void collect_free_objs(self) except *:
         cdef Py_ssize_t i
         cdef object tmp
 
@@ -163,7 +163,7 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
 
     # Collect free objects if the freelist is empty.
     if freelist.n_free_objs == 0:
-        freelist.collect_free()
+        freelist.collect_free_objs()
 
         # After collection, grow the freelist if not enough objects
         # were freed.
