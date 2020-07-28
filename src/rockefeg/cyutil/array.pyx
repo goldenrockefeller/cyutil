@@ -196,4 +196,3 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
 
 
 
-
