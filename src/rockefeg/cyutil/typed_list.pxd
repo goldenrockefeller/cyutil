@@ -10,7 +10,7 @@ cdef class BaseReadableTypedList: # For Readonly List
     cpdef tuple full_type(self)
     cpdef item_type(self)
 
-cdef class BaseWritableTypedList(BaseReadableTypedList): # For
+cdef class BaseWritableTypedList(BaseReadableTypedList): # For either FixedLenTypedList or TypedList
     cpdef void set_item(self, Py_ssize_t id, item) except *
     cpdef void set_items(self, list items) except *
 

@@ -8,6 +8,7 @@ cdef extern from "object.h":
 cdef inline bint is_free(obj) except *:
     return (<_object*>obj)[0].ob_refcnt <= 2
 
+
 cdef enum:
     MIN_CAPACITY_IN_FREELIST = 32
     MAX_SIZE_IN_FREELIST = 32000
@@ -139,6 +140,7 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
     cdef Py_ssize_t i
     cdef Freelist freelist
     cdef DoubleArray new_arr
+    cdef DoubleArray new_free_arr
 
     if size < 0:
         raise (
@@ -170,9 +172,11 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
         if freelist.n_free_objs < max(len(freelist.objs) // 2, 1):
             freelist.objs = [None] * max(2 * len(freelist.objs), 1)
             for i in range(len(freelist.objs)):
-                freelist.objs[i] = DoubleArray.__new__(DoubleArray)
-                freelist.objs[i].view = np.ndarray((capacity,), 'd')
-                freelist.objs[i].capacity = capacity
+                new_free_arr = DoubleArray.__new__(DoubleArray)
+                new_free_arr.view = np.ndarray((capacity,), 'd')
+                new_free_arr.capacity = capacity
+                freelist.objs[i] = new_free_arr
+
                 # freelist.objs[i] = DoubleArray(np.ndarray((capacity,), 'd'))
             freelist.n_free_objs = len(freelist.objs)
 
@@ -182,7 +186,8 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
 
     return new_arr
 
-
+# TODO: np.ndarray(...) should be replaced with cimported ndarray ...
+# TODO:         (or cythonarray) if view validation is faster
 
 
 
