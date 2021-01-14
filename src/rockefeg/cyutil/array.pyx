@@ -8,6 +8,8 @@ cdef extern from "object.h":
 cdef inline bint is_free(obj) except *:
     return (<_object*>obj)[0].ob_refcnt <= 2
 
+cdef inline bint is_base_free(obj) except *:
+    return (<_object*>obj)[0].ob_refcnt <= 4
 
 cdef enum:
     MIN_CAPACITY_IN_FREELIST = 32
@@ -38,13 +40,17 @@ cdef class Freelist:
     cpdef void collect_free_objs(self) except *:
         cdef Py_ssize_t i
         cdef object tmp
+        cdef DoubleArray arr
 
         for i in range(self.n_free_objs, len(self.objs)):
+
             if is_free(self.objs[i]):
-                tmp = self.objs[self.n_free_objs]
-                self.objs[self.n_free_objs] = self.objs[i]
-                self.objs[i] = tmp
-                self.n_free_objs += 1
+                arr = self.objs[i]
+                if is_base_free(arr.base):
+                    tmp = self.objs[self.n_free_objs]
+                    self.objs[self.n_free_objs] = self.objs[i]
+                    self.objs[i] = tmp
+                    self.n_free_objs += 1
 
     cpdef free_obj(self):
         cdef Py_ssize_t free_obj_id
@@ -73,11 +79,13 @@ cdef class DoubleArray:
         base_view = base
 
         self.view = base
+        self.base = base
         shape = (self.view.shape[0],)
 
         # Make a copy of view with a new numpy exporting object.
         nparr = np.ndarray(shape, 'd')
         self.view = nparr
+        self.base = base
         self.capacity = self.view.shape[0]
 
         if base is not None and copies:
@@ -141,6 +149,7 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
     cdef Freelist freelist
     cdef DoubleArray new_arr
     cdef DoubleArray new_free_arr
+    cdef object base
 
     if size < 0:
         raise (
@@ -150,7 +159,9 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
 
     if size > MAX_SIZE_IN_FREELIST:
         new_arr = DoubleArray.__new__(DoubleArray)
-        new_arr.view = np.ndarray((size,), 'd')
+        base = np.ndarray((size,), 'd')
+        new_arr.view = base
+        new_arr.base = base
         new_arr.capacity = size
         return new_arr
 
@@ -173,7 +184,9 @@ cdef DoubleArray new_DoubleArray(Py_ssize_t size):
             freelist.objs = [None] * max(2 * len(freelist.objs), 1)
             for i in range(len(freelist.objs)):
                 new_free_arr = DoubleArray.__new__(DoubleArray)
-                new_free_arr.view = np.ndarray((capacity,), 'd')
+                base = np.ndarray((capacity,), 'd')
+                new_free_arr.view = base
+                new_free_arr.base = base
                 new_free_arr.capacity = capacity
                 freelist.objs[i] = new_free_arr
 
