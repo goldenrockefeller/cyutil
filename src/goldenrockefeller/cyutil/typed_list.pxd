@@ -1,3 +1,5 @@
+cpdef double[:] y(double[:] m)
+
 cdef class BaseReadableTypedList: # For Readonly List
     cpdef shallow_copy(self, copy_obj = ?)
 

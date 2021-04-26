@@ -3,7 +3,7 @@ import sys
 
 if __name__ == "__main__":
 
-    namespace = "rockefeg"
+    namespace = "goldenrockefeller"
     pkg = "cyutil"
     name = "{namespace}.{pkg}".format(**locals())
 

@@ -1,5 +1,8 @@
 cimport cython
 
+cpdef double[:] y(double[:] m):
+    return m
+
 cdef class BaseReadableTypedList: # For Readonly List
     cpdef shallow_copy(self, copy_obj = None):
         raise NotImplementedError("Abstract method.")
